@@ -4233,7 +4233,7 @@ static int	cfg80211_rtw_del_station(struct wiphy *wiphy, struct net_device *ndev
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(3,16,0))
 	u8 *mac
 #else
-	const u8 *mac
+  struct station_del_parameters *params
 #endif
 )
 {
@@ -4254,8 +4254,9 @@ static int	cfg80211_rtw_del_station(struct wiphy *wiphy, struct net_device *ndev
 		return -EINVAL;
 	}
 
-
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(3,16,0))
 	if(!mac)
+#endif
 	{
 		DBG_8192C("flush all sta, and cam_entry\n");
 
@@ -4267,6 +4268,7 @@ static int	cfg80211_rtw_del_station(struct wiphy *wiphy, struct net_device *ndev
 	}
 
 
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(3,16,0))
 	DBG_8192C("free sta macaddr =" MAC_FMT "\n", MAC_ARG(mac));
 
 	if (mac[0] == 0xff && mac[1] == 0xff &&
@@ -4325,7 +4327,7 @@ static int	cfg80211_rtw_del_station(struct wiphy *wiphy, struct net_device *ndev
 	DBG_871X("-"FUNC_NDEV_FMT"\n", FUNC_NDEV_ARG(ndev));
 
 	return ret;
-
+#endif
 }
 
 static int	cfg80211_rtw_change_station(struct wiphy *wiphy, struct net_device *ndev,
