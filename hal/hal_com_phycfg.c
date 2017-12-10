@@ -2574,7 +2574,7 @@ Hal_ChannelPlanToRegulation(
 
 #ifdef CONFIG_LOAD_PHY_PARA_FROM_FILE
 
-extern char *rtw_phy_phy_para_file_path;
+char *rtw_phy_phy_para_file_path;
 char	phy_para_file_path[PATH_LENGTH_MAX];
 
 #define GetLineFromBuffer(buffer)	 strsep(&buffer, "\n")
