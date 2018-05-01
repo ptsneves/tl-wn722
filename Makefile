@@ -4,6 +4,8 @@ $(info "NO SKRC,we will use default KSRC")
 $(info "******************************************")
 endif
 
+DEPMOD ?= depmod
+
 CONFIG_IOCTL_CFG80211=y
 ifeq ($(strip $(CONFIG_IOCTL_CFG80211)),y)
 EXTRA_CFLAGS += -DCONFIG_IOCTL_CFG80211=1
@@ -1371,19 +1373,19 @@ strip:
 
 modules_install:
 	$(MAKE) -C $(KSRC) M=$(shell pwd) modules_install
-	/sbin/depmod -a ${KVER}
+	$(DEPMOD) -a ${KVER}
 
 install:
 	install -p -m 644 $(MODULE_NAME).ko  $(MODDESTDIR)
-	/sbin/depmod -a ${KVER}
+	$(DEPMOD) -a ${KVER}
 
 uninstall:
 	rm -f $(MODDESTDIR)/$(MODULE_NAME).ko
-	/sbin/depmod -a ${KVER}
+	$(DEPMOD) -a ${KVER}
 
 config_r:
 	@echo "make config"
-	/bin/bash script/Configure script/config.in
+	bash script/Configure script/config.in
 
 
 .PHONY: modules clean
